@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.3.xsd">
+
+
+    <changeSet id="1" author="jhulsch">
+        <createTable tableName="BOOKS">
+            <column type="VARCHAR(36)" name="ID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column type="VARCHAR(255)" name="TITLE">
+                <constraints nullable="false"/>
+            </column>
+            <column type="VARCHAR(128)" name="AUTHOR">
+                <constraints nullable="false"/>
+            </column>
+            <column type="VARCHAR(128)" name="GENRE">
+                <constraints nullable="false"/>
+            </column>
+            <column type="VARCHAR(128)" name="PUBLISHER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="jhulsch">
+        <createTable tableName="USERS">
+            <column type="CHAR(36)" name="ID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column type="VARCHAR(128)" name="NAME">
+                <constraints nullable="false"/>
+            </column>
+            <column type="VARCHAR(128)" name="FIRSTNAME">
+                <constraints nullable="false"/>
+            </column>
+            <column type="DATE" name="CREATED_ON">
+                <constraints nullable="false"/>
+            </column>
+            <column type="DATE" name="DELETED_ON">
+                <constraints nullable="true"/>
+            </column>
+            <column type="CHAR(1)" name="GENDER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="jhulsch">
+        <createTable tableName="BOOKS_USERS_BORROWED">
+            <column type="CHAR(36)" name="BOOK_ID">
+                <constraints primaryKey="true" nullable="false" foreignKeyName="BORROWED_BOOK_ID" references="BOOKS(ID)"/>
+            </column>
+            <column type="CHAR(36)" name="USER_ID">
+                <constraints primaryKey="true" nullable="false" foreignKeyName="BORROWED_USER_ID" references="USERS(ID)"/>
+            </column>
+            <column type="DATE" name="BORROWED_AT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column type="DATE" name="BORROWED_TO">
+                <constraints  nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="jhulsch">
+        <sqlFile
+                 encoding="UTF-8"
+                 endDelimiter="\nGO"
+                 path="classpath:/testData.sql"
+                 relativeToChangelogFile="false"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+
+
+
+
+</databaseChangeLog>
